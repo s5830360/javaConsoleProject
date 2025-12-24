@@ -18,6 +18,7 @@ public class Main {
             System.out.print("선택 >> ");
 
             i = scanner.nextInt();
+            scanner.nextLine(); // nextInt가 숫자만 읽고 엔터를 안 읽어서 버퍼 비우기 용
             switch(i) {
                 case 1:
                     System.out.print("이름 입력 : ");
@@ -35,26 +36,29 @@ public class Main {
                         System.out.println("등록된 회원이 없습니다.");
                     }
                     for (int j = 0; j < list.toArray().length; j++) {
-                        System.out.println(list.indexOf(list.get(j) + " - " + list.get(j)));
+                        System.out.println((list.indexOf(list.get(j)) + 1) + " - " + list.get(j));
                     }
                     break;
                 case 3:
                     System.out.print("수정할 회원 ID : ");
                     int id = scanner.nextInt();
-                    if(id >= list.size()) {
+                    scanner.nextLine();
+                    if(id > list.size()) {
                         System.out.println("해당 ID의 회원이 없습니다.");
                         break;
                     }
                     System.out.print("새 이름 입력 : ");
                     name = scanner.nextLine();
-                    list.set(id, name);
+                    list.set(id-1, name);
                     System.out.println("회원 정보 수정 완료");
                     break;
                 case 4:
                     System.out.print("삭제할 회원 ID : ");
                     id = scanner.nextInt();
-                    if(id >= list.size()) {
+                    scanner.nextLine();
+                    if(id > list.size()) {
                         System.out.println("존재하지 않는 ID입니다.");
+                        break;
                     }
                     list.remove(list.get(id));
                     System.out.println("회원 삭제 완료");
