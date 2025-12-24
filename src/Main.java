@@ -1,12 +1,21 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+class Member {
+    public int id;
+    public String name;
+    public Member(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int i = 1;
         String name = "";
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<Member> list = new ArrayList<>();
 
         while (i != 0) {
             System.out.println("==== 회원 관리 프로그램 ====");
@@ -27,21 +36,22 @@ public class Main {
                         System.out.println("등록에 실패하였습니다.");
                         break;
                     }
-                    list.add(name);
-                    System.out.println("회원 등록 완료 (ID:" + list.toArray().length + ")");
+                    Member member = new Member(list.size() + 1, name);
+                    list.add(member);
+                    System.out.println("회원 등록 완료 (ID:" + list.size() + ")");
                     break;
                 case 2:
                     System.out.println("[회원 목록]");
                     if(list.isEmpty()) {
                         System.out.println("등록된 회원이 없습니다.");
                     }
-                    for (int j = 0; j < list.toArray().length; j++) {
-                        System.out.println((list.indexOf(list.get(j)) + 1) + " - " + list.get(j));
+                    for (int j = 0; j < list.size(); j++) {
+                        System.out.println((j + 1) + " - " + list.get(j).name);
                     }
                     break;
                 case 3:
                     System.out.print("수정할 회원 ID : ");
-                    int id = scanner.nextInt();
+                    int id = scanner.nextInt() - 1;
                     scanner.nextLine();
                     if(id > list.size()) {
                         System.out.println("해당 ID의 회원이 없습니다.");
@@ -49,18 +59,19 @@ public class Main {
                     }
                     System.out.print("새 이름 입력 : ");
                     name = scanner.nextLine();
-                    list.set(id-1, name);
+                    Member newMember = new Member(id, name);
+                    list.set(newMember.id, newMember);
                     System.out.println("회원 정보 수정 완료");
                     break;
                 case 4:
-                    System.out.print("삭제할 회원 ID : ");
+                    System.out.print("삭제할 회원 ID : "); // id = index + 1
                     id = scanner.nextInt();
                     scanner.nextLine();
                     if(id > list.size()) {
                         System.out.println("존재하지 않는 ID입니다.");
                         break;
                     }
-                    list.remove(list.get(id));
+                    list.remove(id-1); // 인덱스로도 삭제 가능?
                     System.out.println("회원 삭제 완료");
                     break;
                 case 0:
